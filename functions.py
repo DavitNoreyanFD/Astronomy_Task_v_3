@@ -1,8 +1,12 @@
 """
 
 """
+from random import randint
+import datetime
 import const_and_inp
 import stars
+
+
 def open_tsv(data_tsv, fov_ra: float, fov_dec: float, ra_user_input: float, dec_user_input: float) -> list:
     """
     in order not to load memory, the function checks if the star enters the field of view and then
@@ -31,4 +35,46 @@ def open_tsv(data_tsv, fov_ra: float, fov_dec: float, ra_user_input: float, dec_
                 pass
 
         return list_of_db
+
+
+def quicksort(array: list, key) -> list:
+
+    if len(array) < 2:
+        return array
+    left = []
+    same = []
+    right = []
+    delimiter = key(array[randint(0, len(array) - 1)])
+    for item in array:
+        if key(item) > delimiter:
+            left.append(item)
+        elif key(item) == delimiter:
+            same.append(item)
+        elif key(item) < delimiter:
+            right.append(item)
+    sorted_array = quicksort(left, key) + same + quicksort(right, key)
+    return sorted_array
+
+
+def n_high_mag(array: list, num: int) -> list:
+    """
+functions strips out num elements from array
+    """
+    return array[:num]
+
+
+def my_key_mag(item, reverce: bool):
+    if reverce is True:
+        return -item.mag
+    else:
+        return item.mag
+
+
+
+def my_key_dist(item, reverce: bool):
+    if reverce is True:
+        return -item.distance
+    else:
+        return item.distance
+
 
