@@ -1,3 +1,7 @@
+"""
+All constants and imported variables were collected in this module.
+"""
+
 import configparser
 
 
@@ -14,7 +18,7 @@ try:
     vec_sort_mag = int(config['USER']['vec_sort_mag']) != 0
     vec_sort_dist = int(config['USER']['vec_sort_dist']) != 0
     n = int(config['USER']['n'])
-    if n < 1:
+    if n < 1:  # condition checks the value of n so that the script does not start working if there is no object to use
         raise Exception('the number of stars must be greater than Zero for the script to work')
 except ValueError:
     raise Exception('invalid variable')

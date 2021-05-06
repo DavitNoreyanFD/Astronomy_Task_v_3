@@ -1,5 +1,5 @@
 """
-
+This is the module where all the functions that work in the script are concentrated.
 """
 from random import randint
 import datetime
@@ -9,8 +9,10 @@ import stars
 
 def open_tsv(data_tsv, fov_ra: float, fov_dec: float, ra_user_input: float, dec_user_input: float) -> list:
     """
-    in order not to load memory, the function checks if the star enters the field of view and then
-    adds to array
+    in order not to load memory, the function checks if the star enters the field of view and then adds to array.
+    the function generates an error if there is a mismatch in the main database, for example, if it is not possible
+    to convert the column value to float, an error appears that indicates the line where the error was found, and the
+    function also gives an error if the path to the database is not specified correctly data
     """
     fov_ra_min = ra_user_input - fov_ra / 2
     fov_ra_max = ra_user_input + fov_ra / 2
@@ -20,8 +22,9 @@ def open_tsv(data_tsv, fov_ra: float, fov_dec: float, ra_user_input: float, dec_
         with open(data_tsv) as fd:
             list_of_db = []
             index = 0
+            row_error = 0
             for row in fd:
-                index+=1
+                index += 1
                 list_row = row.split('\t')
                 try:
                     if fov_ra_min < float(list_row[const_and_inp.INDEX_RA]) < fov_ra_max and \
@@ -35,16 +38,19 @@ def open_tsv(data_tsv, fov_ra: float, fov_dec: float, ra_user_input: float, dec_
                             )
                         )
                 except ValueError:
-                    if index > 2:
-                        raise  Exception(f'there is an incorrectness in the database row. row index : {index}')
+                    row_error += 1
+                    if row_error > 2:
+                        raise Exception(f'there is an incorrectness in the database row. row index : {index}')
     except FileNotFoundError:
-        raise Exception('not correct file path')
+        raise Exception(f'the specified path to the database is not correct: {data_tsv}')
 
     return list_of_db
 
 
 def quicksort(array: list, key, reverse: bool) -> list:
-
+    """
+a quicksort sorting algorithm that takes an array, key, and sort direction and returns a sorted array
+    """
     if len(array) < 2:
         return array
     left = []

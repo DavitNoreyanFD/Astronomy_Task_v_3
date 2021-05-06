@@ -1,3 +1,6 @@
+"""
+a class of stars is written in this module
+"""
 import const_and_inp
 
 
