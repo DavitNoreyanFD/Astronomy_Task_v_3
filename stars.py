@@ -13,9 +13,6 @@ class Star:
         self.mag = mag
         self.distance = ((self.ra-const_and_inp.fov_v)**2 +
                          (self.dec-const_and_inp.fov_h)**2)**0.5
-        self.list_k=[]
-
-
 
     def __repr__(self):
         return f'{self.id}, {self.ra}, {self.dec}, {self.mag}, {self.distance}'
